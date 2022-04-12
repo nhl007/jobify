@@ -1,16 +1,17 @@
-import { useEffect,useState } from "react"
+import {useState } from "react"
 import Wrapper from "../assets/wrappers/RegisterPage"
 import { Logo,FormRow,Alart } from "../components"
+import { useAppContext } from "../context/appContext"
 
 const initialState={
   name:'',
-  password:'',
   email:'',
-  isMember:true,
-  showAlert:false
+  password:'',
+  isMember:false
 }
 
 const Register = () => {
+  const {isLoading,showAlert,displayAlert}=useAppContext()
   
   const[values,setValues]=useState(initialState)
 
@@ -19,23 +20,29 @@ const Register = () => {
   }
 
   const onSubmit=(e)=>{
-      e.preventDefault()
-      console.log(e.target)
+    e.preventDefault()
+    const { name, email, password, isMember } = values
+    if (!email || !password || (!isMember && !name)) {
+      displayAlert()
+      return
+    }
+    console.log(values)
   }
 
   const handleChange=(e)=>{
-    console.log(e.target)
+    setValues({ ...values, [e.target.name]: e.target.value })
   }
 
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
       <Logo/>
-      <h3>{!values.isMember? 'Login':'Register'}</h3>
-      {values.showAlert && <Alart alartMessage='alert goes here'/>}
+      <h3>{values.isMember? 'Login':'Register'}</h3>
+      
+      {showAlert && <Alart/>}
      
       {
-        values.isMember &&(
+        !values.isMember &&(
           <FormRow 
           type='text' 
           name='name' 
@@ -61,9 +68,9 @@ const Register = () => {
       />
       
       <button className="btn btn-block" type="submit">submit</button>
-      <p>{!values.isMember ? 'Not a member yet ?' : 'Alrady a member ?'} 
+      <p>{values.isMember ?'Not a member yet ?':'Alrady a member ?' } 
       <button onClick={toggleMember} className='member-btn'> 
-      {!values.isMember ? 'Register':'Login'}</button>
+      {values.isMember ?'Register':'Login'}</button>
       </p>
       </form>
       

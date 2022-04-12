@@ -2,12 +2,14 @@ import styled from 'styled-components'
 
 const Wrapper = styled.section`
   display: grid;
+  justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: 100vh;
   .logo {
-    display: block;
+    display:block;
     margin: 0 auto;
     margin-bottom: 1.38rem;
+
   }
   .form {
     max-width: 400px;
