@@ -46,7 +46,7 @@ app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 
 // only when ready to deploy
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+  res.json({ project: 'jobify' }).status(200);
 });
 
 app.use(notFoundMiddleware);
